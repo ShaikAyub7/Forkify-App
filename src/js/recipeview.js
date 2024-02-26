@@ -1,4 +1,6 @@
-import icons from 'url:../..img/icons.svg';
+// import icons from '../img/icons.svg';
+import icons from '../img/icons';
+import { Fraction } from 'fractional'; // Corrected import statement
 
 class recipeView {
   #parentElement = document.querySelector('.recipe');
@@ -7,8 +9,8 @@ class recipeView {
   render(data) {
     this.#data = data;
 
-    const markup = this.#generateMarkup;
-    this.#clear;
+    const markup = this.#generateMarkup(); // Call the method with parentheses
+    this.#clear(); // Call the method with parentheses
     this.#parentElement.insertAdjacentHTML('afterbegin', markup);
   }
 
@@ -16,7 +18,7 @@ class recipeView {
     this.#parentElement.innerHTML = '';
   }
 
-  renderSpinner = function (parentEl) {
+  renderSpinner() {
     const markup = `
       <div class="spinner">
         <svg>
@@ -26,7 +28,7 @@ class recipeView {
     `;
     this.#parentElement.innerHTML = '';
     this.#parentElement.insertAdjacentHTML('afterbegin', markup);
-  };
+  }
 
   #generateMarkup() {
     return `   
@@ -87,22 +89,7 @@ class recipeView {
       <div class="recipe__ingredients">
         <h2 class="heading--2">Recipe ingredients</h2>
         <ul class="recipe__ingredient-list">
-          ${this.#data.ingredients
-            .map(
-              ingredient => `
-            <li class="recipe__ingredient">
-              <svg class="recipe__icon">
-                <use href="${icons}#icon-check"></use>
-              </svg>
-              <div class="recipe__quantity">${ingredient.quantity}</div>
-              <div class="recipe__description">
-                <span class="recipe__unit">${ingredient.unit}</span>
-                ${ingredient.description}
-              </div>
-            </li>
-          `
-            )
-            .join('')}
+          ${this.#data.ingredients.map(this.#generateMarkupIngredient).join('')}
         </ul>
       </div>
     
@@ -125,8 +112,23 @@ class recipeView {
         </a>
       </div>
     `;
-    recipeContainer.innerHTML = '';
-    recipeContainer.insertAdjacentHTML('afterbegin', markup);
+  }
+
+  #generateMarkupIngredient(ing) {
+    return `
+            <li class="recipe__ingredient">
+              <svg class="recipe__icon">
+                <use href="${icons}#icon-check"></use>
+              </svg>
+              <div class="recipe__quantity">${
+                ing.quantity ? new Fraction(ingredient.quantity).toString() : ''
+              }</div> <!-- Corrected variable reference -->
+              <div class="recipe__description">
+                <span class="recipe__unit">${ingredient.unit}</span>
+                ${ingredient.description}
+              </div>
+            </li>
+          `;
   }
 }
 

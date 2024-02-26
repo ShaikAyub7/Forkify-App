@@ -1,11 +1,9 @@
-//
 import * as model from './model.js';
-import recipeview from './recipeview.js';
-
-import icons from '../img/icons.svg'; // Import SVG icons directly
+import recipeView from './recipeview.js'; // Corrected import statement
+// import icons from '../../src/img/icons/svg';
+// Import SVG icons directly
 import 'core-js/stable';
 import 'regenerator-runtime/runtime';
-console.log(icons);
 
 const recipeContainer = document.querySelector('.recipe');
 
@@ -17,8 +15,6 @@ const timeout = function (s) {
   });
 };
 
-
-
 const controlRecipe = async function () {
   try {
     const id = window.location.hash.slice(1);
@@ -26,14 +22,13 @@ const controlRecipe = async function () {
 
     if (!id) return;
 
-    recipeviewrenderSpinner();
+    recipeView.renderSpinner(); // Corrected function call
     await model.loadRecipe(id);
 
-    const { recipe } = model.state;
+    // const { recipe } = model.state;
 
     recipeView.render(model.state.recipe);
-
-   } catch (err) {
+  } catch (err) {
     alert(err);
   }
 };
