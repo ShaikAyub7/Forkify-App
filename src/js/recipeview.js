@@ -1,5 +1,5 @@
 // import icons from '../img/icons.svg';
-import icons from '../img/icons';
+import icons from 'url:../img/icons';
 import { Fraction } from 'fractional'; // Corrected import statement
 
 class recipeView {
